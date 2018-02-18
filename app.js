@@ -1,48 +1,44 @@
-const char = document.getElementById('charContainer');
-const responseContainer = document.getElementById('charInfo');
-let searchedChar;
+const personajes = document.getElementById('personajes');
+const info = document.getElementById('info');
+let buscar;
 let number;
 
-char.addEventListener('click', function(event) {
+personajes.addEventListener('click', function(event) {
   let evento = event.target;
-  /* console.log(evento);*/
-  const aidi = evento.getAttribute('id');
-  const number = aidi.substring(4);
-  /* console.log(number);*/
-
-  /* responseContainer.innerHTML = ''; */
-  searchedChar = number;
+  console.log(evento);
+  const nombre = evento.getAttribute('id');
+  const number = nombre.substring(4);
+  buscar = number;
   addChar();
 });
 
 function addChar() {
-  let modals = document.getElementById('modal');
-  fetch('https://swapi.co/api/people/' + searchedChar + '/')
-  .then(function(response) {
-    //Turns the the JSON into a JS object
-    return response.json();
-  })
-  .then(function(data) {
-    console.log(data);
-    //Let's make some HTML!
-    let html = `<div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title text-center" id="myModalLabel">${data.name}</h4>
-      </div>
-      <div class="modal-body">
-        <div id="charInfo">
-          <p>Birth year: ${data.birth_year}</p>
-          <p>Gender: ${data.gender}</p>
-          <p>Height: ${data.height}</p>
-          <p>Eye color: ${data.eye_color}</p>
-          <p>Hair color: ${data.hair_color}</p>
-        </div>
-      </div>
-    </iv>
-  </div>`;
-  //Put that HTML on the page
-  modals.innerHTML = html;
-  });
-}
+  let modal = document.getElementById('modal');
+  fetch(`https://swapi.co/api/people/${buscar}/`)
+    .then(function(response) {
+      return response.json();
+    })
+
+    .then(function(data) {
+      console.log(data);
+      let html = `  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header text-center">
+                          <h2 class="modal-title" id="exampleModalLabel">${data.name}</h2>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body text-center">
+                          <div>
+                            <p>Gender: ${data.gender}</p>
+                            <p>Height: ${data.height}</p>
+                            <p>Eye color: ${data.eye_color}</p>
+                            <p>Hair color: ${data.hair_color}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>`;
+      info.innerHTML = html;
+    });
+};

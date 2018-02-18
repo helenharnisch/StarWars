@@ -11,3 +11,7 @@ h1 {
   width: 230px;
   height: auto;
 }
+
+#modal {
+  background-color: red;
+}
